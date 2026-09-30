@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Calculatrice.MainPage"
+             BackgroundColor="#1C1C1E"
+             Padding="12">
+
+    <ContentPage.Resources>
+        <Style x:Key="Base" TargetType="Button">
+            <Setter Property="FontSize" Value="26" />
+            <Setter Property="CornerRadius" Value="14" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="MinimumHeightRequest" Value="0" />
+            <Setter Property="MinimumWidthRequest" Value="0" />
+            <Setter Property="HorizontalOptions" Value="Fill" />
+            <Setter Property="VerticalOptions" Value="Fill" />
+            <Setter Property="TextColor" Value="White" />
+        </Style>
+        <Style x:Key="Digit" TargetType="Button" BasedOn="{StaticResource Base}">
+            <Setter Property="BackgroundColor" Value="#3A3A3C" />
+        </Style>
+        <Style x:Key="Action" TargetType="Button" BasedOn="{StaticResource Base}">
+            <Setter Property="BackgroundColor" Value="#636366" />
+        </Style>
+        <Style x:Key="Op" TargetType="Button" BasedOn="{StaticResource Base}">
+            <Setter Property="BackgroundColor" Value="#FF9F0A" />
+        </Style>
+    </ContentPage.Resources>
+
+    <!-- LAYOUT 1 : Grid principale (afficheur 2* / clavier 5*) -->
+    <Grid RowDefinitions="2*,5*" RowSpacing="12">
+
+        <!-- LAYOUT 2 : Border = panneau de l'afficheur -->
+        <Border Grid.Row="0" BackgroundColor="#2C2C2E" Padding="16,8"
+                StrokeThickness="0" StrokeShape="RoundRectangle 16">
+
+            <!-- LAYOUT 3 : VerticalStackLayout = opération au-dessus du résultat -->
+            <VerticalStackLayout VerticalOptions="Center" Spacing="4">
+
+                <!-- LAYOUT 4 : HorizontalStackLayout = barre d'état (titre) -->
+                <HorizontalStackLayout HorizontalOptions="End" Spacing="6">
+                    <Label Text="CALC" FontSize="12" TextColor="#8E8E93" />
+                    <Label Text="●" FontSize="12" TextColor="#FF9F0A" />
+                </HorizontalStackLayout>
+
+                <Label x:Name="ExpressionLabel" Text="" FontSize="20"
+                       TextColor="#8E8E93" HorizontalTextAlignment="End"
+                       LineBreakMode="HeadTruncation" />
+
+                <!-- LAYOUT 5 : ScrollView horizontal = les grands nombres ne débordent pas -->
+                <ScrollView x:Name="ResultScroll" Orientation="Horizontal"
+                            HorizontalScrollBarVisibility="Never">
+                    <Label x:Name="ResultLabel" Text="0" FontSize="48"
+                           TextColor="White" HorizontalTextAlignment="End"
+                           HorizontalOptions="End" />
+                </ScrollView>
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- Clavier : Grid imbriquée 5 lignes x 4 colonnes -->
+        <Grid Grid.Row="1" RowSpacing="8" ColumnSpacing="8"
+              RowDefinitions="*,*,*,*,*" ColumnDefinitions="*,*,*,*">
+
+            <Button Grid.Row="0" Grid.Column="0" Text="C"  Style="{StaticResource Action}" Clicked="OnClear" />
+            <Button Grid.Row="0" Grid.Column="1" Text="⌫" Style="{StaticResource Action}" Clicked="OnBackspace" />
+            <Button Grid.Row="0" Grid.Column="2" Text="%"  Style="{StaticResource Action}" Clicked="OnPercent" />
+            <Button Grid.Row="0" Grid.Column="3" Text="÷"  Style="{StaticResource Op}" Clicked="OnOperator" />
+
+            <Button Grid.Row="1" Grid.Column="0" Text="7" Style="{StaticResource Digit}" Clicked="OnDigit" />
+            <Button Grid.Row="1" Grid.Column="1" Text="8" Style="{StaticResource Digit}" Clicked="OnDigit" />
+            <Button Grid.Row="1" Grid.Column="2" Text="9" Style="{StaticResource Digit}" Clicked="OnDigit" />
+            <Button Grid.Row="1" Grid.Column="3" Text="×" Style="{StaticResource Op}" Clicked="OnOperator" />
+
+            <Button Grid.Row="2" Grid.Column="0" Text="4" Style="{StaticResource Digit}" Clicked="OnDigit" />
+            <Button Grid.Row="2" Grid.Column="1" Text="5" Style="{StaticResource Digit}" Clicked="OnDigit" />
+            <Button Grid.Row="2" Grid.Column="2" Text="6" Style="{StaticResource Digit}" Clicked="OnDigit" />
+            <Button Grid.Row="2" Grid.Column="3" Text="−" Style="{StaticResource Op}" Clicked="OnOperator" />
+
+            <Button Grid.Row="3" Grid.Column="0" Text="1" Style="{StaticResource Digit}" Clicked="OnDigit" />
+            <Button Grid.Row="3" Grid.Column="1" Text="2" Style="{StaticResource Digit}" Clicked="OnDigit" />
+            <Button Grid.Row="3" Grid.Column="2" Text="3" Style="{StaticResource Digit}" Clicked="OnDigit" />
+            <Button Grid.Row="3" Grid.Column="3" Text="+" Style="{StaticResource Op}" Clicked="OnOperator" />
+
+            <Button Grid.Row="4" Grid.Column="0" Text="±" Style="{StaticResource Digit}" Clicked="OnSign" />
+            <Button Grid.Row="4" Grid.Column="1" Text="0" Style="{StaticResource Digit}" Clicked="OnDigit" />
+            <Button Grid.Row="4" Grid.Column="2" Text="." Style="{StaticResource Digit}" Clicked="OnDecimal" />
+            <Button Grid.Row="4" Grid.Column="3" Text="=" Style="{StaticResource Op}" Clicked="OnEquals" />
+        </Grid>
+    </Grid>
+</ContentPage>
